@@ -18,6 +18,9 @@ var MIDIContents;
 // Tuna interface
 var tuna;
 
+// Sound state (muted/unmuted)
+var sound_enabled = false;
+
 // Get soundfont name of a specific instrument
 function getSFName(insName)
 {
@@ -56,7 +59,7 @@ function initIns(name)
 function loadMIDIFile()
 {
     // Get file
-    const file = document.getElementById("midi-file").files[0];
+    const file = document.getElementById("file-in").files[0];
     console.info("Loading \"" + file.name + "\" (" + file.size + " B)");
     // Check for non-MIDIs
     if (file.type != "audio/midi")
@@ -106,4 +109,41 @@ function saveMIDIFile(name)
     let blob = new File([rectifiedArray], {type: "audio/midi"});
     console.info(blob);
     saveAs(blob, name);
+}
+
+// Toggle the mute/unmute button in the navbar
+function toggleMute()
+{
+    // Get element
+    var ind = document.getElementById("sound-toggle");
+
+    // Toggle
+    if (!sound_enabled)
+    {
+        // Unmute
+        if (!ac)
+        {
+            audioCtxInit();
+        }
+        else
+        {
+            ac.resume();
+        }
+
+        ind.setAttribute("class", "bi bi-volume-up-fill");
+        sound_enabled = true;
+    }
+    else
+    {
+        // Mute
+        ac.suspend();
+        ind.setAttribute("class", "bi bi-volume-mute");
+        sound_enabled = false;
+    }
+}
+
+window.onload = function()
+{
+    loadNavs();
+    initTopKeyboard();
 }

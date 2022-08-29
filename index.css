@@ -1,3 +1,13 @@
+/* Define variables */
+:root
+{
+    --top-piano-height: 40px;
+    --top-piano-spacing: 2px;
+    --top-piano-white-key-width: 6px;
+    --top-piano-black-key-spacing: calc(var(--top-piano-white-key-width) - var(--top-piano-spacing));
+    --top-piano-black-key-init-off: calc(var(--top-piano-white-key-width) / 4); /* Initial offset for black key */
+}
+
 /*
 Add submenus in dropdowns
 https://stackoverflow.com/questions/18023493/bootstrap-dropdown-sub-menu-missing
@@ -18,4 +28,60 @@ https://stackoverflow.com/questions/18023493/bootstrap-dropdown-sub-menu-missing
 .navbar-nav li:hover > ul.dropdown-menu
 {
     display: block;
+}
+
+/* Make background black to not blind people */
+body
+{
+    background-color: black;
+}
+
+/* Hide original file input box */
+#file-in
+{
+    display: none;
+}
+
+/* Make icons larger */
+i.bi
+{
+    font-size: 2em;
+    color: white;
+}
+
+/*
+   For top piano keyboard, thanks for CodeLab's "Speed Code" video
+   (https://youtu.be/XcpJ1aWiy90)
+*/
+#top-piano
+{
+    display: flex;
+    position: relative;
+    margin-left: var(--top-piano-spacing);
+}
+
+#top-piano .white-key
+{
+    width: var(--top-piano-white-key-width);
+    height: var(--top-piano-height);
+    background-color: #FFF;
+    margin-left: calc(-1 * var(--top-piano-spacing));
+    outline: none;
+    border: 1px solid black;
+}
+
+#top-piano .white-key.active, #top-piano .black-key.active
+{
+    background-color: red;
+    background-image: linear-gradient(#af0000, #ff0000);
+}
+
+#top-piano .black-key
+{
+    position: absolute;
+    width: calc(var(--top-piano-white-key-width) * 50 / 100);
+    height: calc(var(--top-piano-height) * 60 / 100);
+    background-image: linear-gradient(#000000, #303030);
+    border: 1px solid black;
+    outline: none;
 }

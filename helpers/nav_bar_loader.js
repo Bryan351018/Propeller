@@ -65,8 +65,8 @@ function setCtxMenus(obj, label, layer)
     }
 }
 
-// Listen to window.onload() event and initialize navbar
-window.onload = function()
+// Load navbar
+function loadNavs()
 {
     // Navigation bar slot
     var slot = document.getElementById("navbar-slots");
@@ -155,6 +155,14 @@ function commitAction(action)
 
     switch (action)
     {
+        case "file:open":
+            document.getElementById("file-in").click();
+            break;
+
+        case "file:import":
+            document.getElementById("file-in").click()
+            break;
+
         default:
             console.warn("This action is currently unhandled");
             break;
