@@ -15,6 +15,9 @@ var instruments = {};
 // Parsed MIDI contents
 var MIDIContents;
 
+// Tuna interface
+var tuna;
+
 // Get soundfont name of a specific instrument
 function getSFName(insName)
 {
@@ -22,10 +25,11 @@ function getSFName(insName)
     return "soundfonts/" + col_name + "/" + insName + "-" + sf_ext + ".js";
 }
 
-// Initialize audio context
+// Initialize audio context and tuna interface
 function audioCtxInit()
 {
     ac = new AudioContext();
+    tuna = new Tuna(ac);
 }
 
 // Initialize an instrument

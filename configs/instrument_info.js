@@ -1,4 +1,4 @@
-[
+const inst_info = [
   {"hexcode":"0x00", "family":"Piano", "instrument":"Acoustic Grand Piano"},
   {"hexcode":"0x01", "family":"Piano", "instrument":"Bright Acoustic Piano"},
   {"hexcode":"0x02", "family":"Piano", "instrument":"Electric Grand Piano"},
