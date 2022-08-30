@@ -1,32 +1,4 @@
 'use strict';
-/*
-// Determines if a MIDI note number represents a white key
-function isWhiteKey(num)
-{
-    // 12 keys on a keyboard
-    switch (num % 12)
-    {
-        // Black keys
-        case 1:
-        case 3:
-        case 6:
-        case 8:
-        case 10:
-            return false;
-
-        // White keys
-        default:
-            return true;
-    }
-}
-
-// Initialize top keyboard
-function initTopKeyboard()
-{
-    // Keyboard slot
-    var kbd_slot = document.getElementById("top-piano");
-}
-*/
 
 // Top piano variables
 
@@ -175,7 +147,7 @@ const top_piano = (sketch) => {
             drawKey(tempnum);
         }
     };
-    
+
 };
 
 // Run top piano sketch on canvas
