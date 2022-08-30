@@ -49,6 +49,12 @@ i.bi
     color: white;
 }
 
+/* For desktop devices */
+i.bi:hover
+{
+    cursor: pointer;
+}
+
 /*
    For top piano keyboard, thanks for CodeLab's "Speed Code" video
    (https://youtu.be/XcpJ1aWiy90)
