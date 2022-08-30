@@ -4,22 +4,24 @@
 
 // Canvas sizes
 const top_piano_width = window.innerWidth / 3;
-const top_piano_height = window.innerHeight / 5;
+const top_piano_height = window.innerHeight / 30;
 
 // Amount of note numbers specified in MIDI
 const MIDI_NC = 128;
 
 // Note active states (all false by default)
 var top_piano_active_notes = Array.apply(null, Array(MIDI_NC)).map(() => {return false;});
-// Que of notes to toggle state
-var toggleQueue = [];
+// Top piano event queue
+// Send in things like {note: 50, active: true}, {note: 55, active: false},
+// or {clear: true} to reset the keyboard
+var topPEQueue = [];
 
 // p5.js canvas display sketch for top piano
 const top_piano = (sketch) => {
 
     // Configurable parameters
     const black_to_white_p = 0.6; // Black to white key height proportion (e.g. 0.7 for 70%)
-    const border_weight = 0.3; // Border thickness (between keys)
+    const border_weight = 0.5; // Border thickness (between keys)
     const border_color = "black"; // Border color (between keys)
 
     // Calculate key parameters
@@ -102,10 +104,9 @@ const top_piano = (sketch) => {
 
     }
 
-    // Setup
-    sketch.setup = () => {
-        // Create canvas
-        sketch.createCanvas(top_piano_width, top_piano_height);
+    // Initialize/reset top keyboard
+    function topKbdInit()
+    {
         // Set white background
         sketch.background("white");
         // Set border
@@ -118,36 +119,54 @@ const top_piano = (sketch) => {
             setDefKeyColor(i);
             drawKey(i);
         }
+    }
+
+    // Setup
+    sketch.setup = () => {
+        // Create canvas
+        sketch.createCanvas(top_piano_width, top_piano_height);
+        topKbdInit();
     };
 
     // Draw loop
     sketch.draw = () => {
         // Temporary note number to toggle
-        var tempnum;
+        var temp_pack;
 
         // Iterate the toggle queue
-        for (var i = 0; i < toggleQueue.length; i++)
+        for (var i = 0; i < topPEQueue.length; i++)
         {
             // Change note states
-            tempnum = toggleQueue.shift()
-            top_piano_active_notes[tempnum] = !top_piano_active_notes[tempnum];
+            temp_pack = topPEQueue.shift()
+            console.log(temp_pack);
 
-            // Render notes
-            if (!top_piano_active_notes[tempnum])
+            // If instructed to clear the keyboard
+            if (temp_pack.clear)
             {
-                // Note off, default colors
-                setDefKeyColor(tempnum);
+                // Clear it
+                topKbdInit();
+                break;
             }
             else
             {
-                // Note off, fill red
-                sketch.fill("red");
-            }
+                top_piano_active_notes[temp_pack.note] = temp_pack.active;
 
-            drawKey(tempnum);
+                // Render notes
+                if (!top_piano_active_notes[temp_pack.note])
+                {
+                    // Note off, default colors
+                    setDefKeyColor(temp_pack.note);
+                }
+                else
+                {
+                    // Note off, fill red
+                    sketch.fill("red");
+                }
+
+                drawKey(temp_pack.note);
+            }
         }
     };
-
 };
 
 // Run top piano sketch on canvas
