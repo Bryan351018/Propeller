@@ -145,5 +145,5 @@ function toggleMute()
 window.onload = function()
 {
     loadNavs();
-    initTopKeyboard();
+
 }
