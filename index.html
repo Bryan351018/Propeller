@@ -19,7 +19,7 @@
         <!-- Include homemade helper scripts -->
         <script src="configs/navbar_bindings.js"></script>
         <script src="helpers/nav_bar_loader.js"></script>
-        <script src="helpers/interface_manager.js"></script>
+
 
         <link href="index.css" rel="stylesheet"/>
     </head>
@@ -54,19 +54,48 @@
             <!-- Input element, hidden by CSS, used programmatically by JS to open file dialogs -->
             <input type="file" name="midi-file" id="file-in">
 
-            <!-- Piano keyboard on the top to show what's playing -->
-            <!-- Thanks for CodeLab's "Speed Code" video (https://youtu.be/XcpJ1aWiy90) -->
+            <!-- Toolbar -->
+            <div id="toolbar" role="toolbar">
+                <!-- Section 1 -->
+                <div>
+                    <!-- Button panel -->
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <!-- New -->
+                        <button type="button" class="btn btn-primary"><i class="bi bi-file-earmark-plus"></i></button>
+                        <!-- Open -->
+                        <button type="button" class="btn btn-primary"><i class="bi bi-folder2-open"></i></button>
+                        <!-- Save, i.e. download -->
+                        <button type="button" class="btn btn-primary"><i class="bi bi-download"></i></button>
+                        <!-- Project configurations -->
+                        <button type="button" class="btn btn-primary"><i class="bi bi-card-text"></i></button>
+                        <!-- Export to MIDI -->
+                        <button type="button" class="btn btn-primary"><i class="bi bi-file-earmark-music"></i></button>
+                        <!-- Undo -->
+                        <button type="button" class="btn btn-primary"><i class="bi bi-arrow-counterclockwise"></i></button>
+                        <!-- Redo -->
+                        <button type="button" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i></button>
+                    </div>
 
-            <div id="top-piano">
-                <!-- Top piano visual display goes here -->
+                    <!-- Instrument display -->
+                    <div id="current-channel-display">
+                        <!-- Automatically rendered by a p5.js sketch -->
+                    </div>
+                </div>
+
+                <!-- Top piano visual -->
+                <div id="top-piano">
+                    <!-- Top piano visual display goes here -->
+                </div>
             </div>
-<!--
-            <canvas id="backdrop">backdrop</canvas>
 
-            <canvas id="notes">Notes</canvas>
-        -->
+
+
 
         <!-- General models, init and deinit functionalities -->
         <script src="index.js"></script>
+        <!-- p5.js canvas interfaces -->
+        <script src="helpers/interfaces/current_channel_display.js"></script>
+        <script src="helpers/interfaces/top_piano.js"></script>
+        
     </body>
 </html>

@@ -73,7 +73,6 @@ function loadNavs()
 
     // Current label
     var cur_label;
-    var cur_obj;
 
     // Iterate the bindings list
     for (var item of navbar_bindings)
