@@ -1,11 +1,7 @@
-/* Define variables */
+/* Define CSS variables */
 :root
 {
-    --top-piano-height: 40px;
-    --top-piano-spacing: 2px;
-    --top-piano-white-key-width: 6px;
-    --top-piano-black-key-spacing: calc(var(--top-piano-white-key-width) - var(--top-piano-spacing));
-    --top-piano-black-key-init-off: calc(var(--top-piano-white-key-width) / 4); /* Initial offset for black key */
+
 }
 
 /*
@@ -36,17 +32,34 @@ body
     background-color: black;
 }
 
+/* Make texts white by default */
+p
+{
+    color: white;
+}
+
+/* Add a class for horizontal item placements */
+div.horizontal-container>*
+{
+    display: inline-block;
+}
+
 /* Hide original file input box */
 #file-in
 {
     display: none;
 }
 
-/* Make icons larger */
+/* Make icons white */
 i.bi
 {
-    font-size: 2em;
     color: white;
+}
+
+/* Make the mute button larger */
+i.bi#sound-toggle
+{
+    font-size: 2em;
 }
 
 /* For desktop devices */

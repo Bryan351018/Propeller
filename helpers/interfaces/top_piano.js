@@ -28,7 +28,6 @@ const top_piano = (sketch) => {
     const unit_width = top_piano_width / MIDI_NC; // Unit width that applies to all keys
     const white_key_h = top_piano_height; // White key height
     const black_key_h = white_key_h * black_to_white_p; // Black key height
-    const key_h_diff = white_key_h - black_key_h; // Key height difference
 
     // Function to render a key
     function drawKey(index)
