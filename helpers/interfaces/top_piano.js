@@ -6,9 +6,6 @@
 const top_piano_width = window.innerWidth / 3;
 const top_piano_height = window.innerHeight / 30;
 
-// Amount of note numbers specified in MIDI
-const MIDI_NC = 128;
-
 // Note active states (all false by default)
 var top_piano_active_notes = Array.apply(null, Array(MIDI_NC)).map(() => {return false;});
 // Top piano event queue

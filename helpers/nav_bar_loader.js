@@ -154,6 +154,19 @@ function commitAction(action)
 
     switch (action)
     {
+        // Handle fullscreen
+        case "propeller:toggle_fullscreen":
+            const fullScrEl = document.getElementById("main-editor-window");
+            if (fullScrEl.requestFullscreen)
+            {
+                fullScrEl.requestFullscreen();
+            }
+            else
+            {
+                fullScrEl.webkitRequestFullscreen();
+            }
+            break;
+
         case "file:open":
             document.getElementById("file-in").click();
             break;

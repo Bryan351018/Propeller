@@ -44,6 +44,24 @@ div.horizontal-container>*
     display: inline-block;
 }
 
+/* Place the main editor in the right place */
+div#editor
+{
+    display: inline-flex;
+}
+
+/* Darken track displays to not blind people */
+.track-disp
+{
+    background-color: #3d3d3d;
+}
+
+/* Get some margin around track displays */
+.track-disp .horizontal-container .btn-group
+{
+    margin-right: 1em;
+}
+
 /* Hide original file input box */
 #file-in
 {

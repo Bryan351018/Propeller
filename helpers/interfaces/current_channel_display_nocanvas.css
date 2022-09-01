@@ -1,0 +1,47 @@
+/* Current channel display, but without canvas */
+
+/* Declare variables */
+:root
+{
+    --cur-chan-disp-border-thickness: 0.5px;
+    --cur-chan-disp-v-bar-height: 5px;
+}
+
+/* Display styles */
+#current-channel-display
+{
+    border: 3px groove aqua;
+}
+
+#current-channel-display>div
+{
+    margin-right: 1em;
+}
+
+#current-channel-display>div>p
+{
+    display: inline;
+    color: lime;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.8em;
+}
+
+#current-channel-display>#current-channel-number-box
+{
+    border-right: 2px solid gray;
+    display: inline;
+}
+
+/* Setup effect value bars */
+#current-channel-display>div>div>div
+{
+    height: var(--cur-chan-disp-v-bar-height);
+    border: var(--cur-chan-disp-border-thickness) solid #ccc;
+    background-color: black;
+}
+
+#current-channel-display>div>div>div>span
+{
+    height: calc(var(--cur-chan-disp-v-bar-height) - 2 * var(--cur-chan-disp-border-thickness));
+    display: block;
+}
