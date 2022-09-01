@@ -145,5 +145,6 @@ function toggleMute()
 window.onload = function()
 {
     loadNavs();
-
+    createCurChDisp();
+    updateCurChDisp();
 }

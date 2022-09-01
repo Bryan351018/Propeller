@@ -15,7 +15,7 @@
 
 #current-channel-display>div
 {
-    margin-right: 1em;
+    margin-right: 0.3em;
 }
 
 #current-channel-display>div>p
@@ -24,6 +24,7 @@
     color: lime;
     font-family: "Courier New", Courier, monospace;
     font-size: 0.8em;
+    margin: 0;
 }
 
 #current-channel-display>#current-channel-number-box

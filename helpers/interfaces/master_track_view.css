@@ -1,0 +1,52 @@
+/* Master track view (measure, time, BPM, ...) */
+#master-track-view
+{
+    border: 3px groove aqua;
+}
+
+#master-track-view>*
+{
+    vertical-align: middle;
+}
+
+#master-track-view>p>sup
+{
+    color: lime;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.65em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+#master-track-view>p
+{
+    display: inline;
+    color: lime;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1em;
+}
+
+#master-track-view>#time-sig
+{
+    margin-left: 0.5em;
+    margin-right: 0.2em;
+}
+
+#master-track-view>#key-sig
+{
+    margin-left: 0.3em;
+    margin-right: 0.7em;
+}
+
+#master-track-view>#time-sig>p
+{
+    color: lime;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+#master-track-view>#time-sig>p:first-of-type
+{
+    border-bottom: 2px solid lime;
+}
