@@ -85,3 +85,12 @@ i.bi:hover
 {
     cursor: pointer;
 }
+
+/* Display the "select" icon correctly */
+#icon-select
+{
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 1px white dashed;
+}
