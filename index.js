@@ -1,62 +1,19 @@
 'use strict';
 
-// Audio context
-var ac;
-
 // Soundfont collection name (e.g. FluidR3_GM)
 const col_name = "FluidR3_GM";
 
 // Soundfont extension (ogg/mp3)
 var sf_ext = "ogg";
 
-// List of initialized instruments
-var instruments = {};
-
 // Parsed MIDI contents
 var MIDIContents;
-
-// Tuna interface
-var tuna;
 
 // Sound state (muted/unmuted)
 var sound_enabled = false;
 
-// Get soundfont name of a specific instrument
-function getSFName(insName)
-{
-    // insName: instrument name (e.g. accordion)
-    return "soundfonts/" + col_name + "/" + insName + "-" + sf_ext + ".js";
-}
-
-// Initialize audio context and tuna interface
-function audioCtxInit()
-{
-    ac = new AudioContext();
-    tuna = new Tuna(ac);
-}
-
-// Initialize an instrument
-function initIns(name)
-{
-    // Attempt to initialize
-    Soundfont.instrument(ac, getSFName(name)).then(
-        // Initialization successful
-        function(ins)
-        {
-            // Set instruments array
-            instruments[name] = ins;
-        }
-    ).catch(
-        // Initialization failed
-        function()
-        {
-            console.error("Could not initialize " + getSFName(name));
-        }
-    );
-}
-
-// Load and parse a MIDI file into MIDIContents
-function loadMIDIFile()
+// Load and parse a MIDI file into MIDIContents, then call a function on success
+function loadMIDIFile(call_func)
 {
     // Get file
     const file = document.getElementById("file-in").files[0];
@@ -80,6 +37,9 @@ function loadMIDIFile()
             MIDIContents = parseMidi(MIDIContents);
 
             console.info(MIDIContents);
+
+            // Call the function
+            call_func.call();
         }
     ).catch(
         // Read failed
@@ -142,6 +102,7 @@ function toggleMute()
     }
 }
 
+// Automatically initialize components on window load
 window.onload = function()
 {
     loadNavs();

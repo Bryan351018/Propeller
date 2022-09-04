@@ -18,3 +18,4 @@ Inspired by "Domino", a similar Digital Audio Workstation that I have used in th
 + tuna
 + Bootstrap
 + p5.js
++ hammer.js

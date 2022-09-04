@@ -21,6 +21,9 @@ var piano_offset = 0; // Piano vertical offset
 var beat_line_off = 0; // Beat line offset
 var beat_line_width = 100; // Beat line width
 var beat_line_beats_per_meas = 3; // Beats per measure for the beat lines
+var piano_roll_width; // Width of the piano roll, initialized in sketch
+var piano_roll_height; // Height of the piano roll, initialized in sketch
+
 
 // p5.js canvas display for the main editor!
 const main_editor_window = (sketch) => {
@@ -28,6 +31,8 @@ const main_editor_window = (sketch) => {
     sketch.setup = () => {
         sketch.createCanvas(main_e_window_width, main_e_window_height);
         sketch.background(50);
+        piano_roll_height = main_e_window_height - 50;
+        piano_roll_width = main_e_window_width - 50;
     }
 
     // Configurable parameters
@@ -134,6 +139,9 @@ const main_editor_window = (sketch) => {
     // Draw keyboard
     function drawKbd()
     {
+        // Temporary output height
+        var temp_output_height;
+
         // Set border
         sketch.strokeWeight(border_weight);
         sketch.stroke(border_color);
@@ -141,8 +149,14 @@ const main_editor_window = (sketch) => {
         // Draw keys
         for (var i = 0; i < MIDI_NC; i++)
         {
-            setDefKeyColor(i);
-            drawKey(i);
+            temp_output_height = sketch.height - ((i + 1) * unit_width) + piano_offset;
+
+            // If the key is in the piano roll
+            if (temp_output_height >= time_bar_height && temp_output_height < piano_roll_height)
+            {
+                setDefKeyColor(i);
+                drawKey(i);
+            }
         }
     }
 
@@ -150,11 +164,20 @@ const main_editor_window = (sketch) => {
     /* ===== COMPONENT: KEYBOARD EDITOR LINES ===== */
     function drawKbdEdLines()
     {
+        // Temporary line height
+        var temp_line_height;
+
         sketch.strokeWeight(ed_line_weight);
         sketch.stroke(ed_line_color);
         for (var i = 0; i < MIDI_NC; i++)
         {
-            sketch.line(white_key_h, sketch.height - unit_width * i + piano_offset, sketch.width, sketch.height - unit_width * i + piano_offset);
+            // Check if the line isn't beyond the height of the piano roll
+            temp_line_height = sketch.height - unit_width * i + piano_offset;
+            if (temp_line_height < piano_roll_height)
+            {
+                sketch.line(white_key_h, temp_line_height,
+                            piano_roll_width, temp_line_height);
+            }
         }
     }
 
@@ -167,10 +190,10 @@ const main_editor_window = (sketch) => {
         sketch.strokeWeight(time_bar_border_weight);
 
         // Draw a big bar
-        sketch.rect(white_key_h, 0, sketch.width, time_bar_height);
+        sketch.rect(white_key_h, 0, piano_roll_width - column_height, time_bar_height);
     }
 
-    /* ===== COMPONNENT: BEAT LINES ===== */
+    /* ===== COMPONENT: BEAT LINES ===== */
     function drawBeatLines()
     {
         // Set appearances
@@ -178,10 +201,17 @@ const main_editor_window = (sketch) => {
         sketch.strokeWeight(beat_line_weight);
 
         // Draw lines
-        for (var x_coord = white_key_h + beat_line_off; x_coord <= sketch.width; x_coord += beat_line_width)
+        for (var x_coord = white_key_h + beat_line_off; x_coord <= piano_roll_width; x_coord += beat_line_width)
         {
-            sketch.line(x_coord, 0, x_coord, sketch.height);
+            sketch.line(x_coord, 0, x_coord, piano_roll_height);
         }
+    }
+
+    /* ===== COMPONENT: SCROLL BARS */
+    function drawVertScrollBar()
+    {
+        // Draws a vertical scroll bar
+        
     }
 
     // Draw loop

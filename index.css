@@ -86,6 +86,12 @@ i.bi:hover
     cursor: pointer;
 }
 
+/* Make the toolbar display a little nicer */
+#toolbar .toolbar-top-align
+{
+    vertical-align: top;
+}
+
 /* Display the "select" icon correctly */
 #icon-select
 {

@@ -152,6 +152,9 @@ function commitAction(action)
 {
     console.info("Action commited: " + action);
 
+    // File input element
+    var file_in_el = document.getElementById("file-in");
+
     switch (action)
     {
         // Handle fullscreen
@@ -168,11 +171,24 @@ function commitAction(action)
             break;
 
         case "file:open":
-            document.getElementById("file-in").click();
+            file_in_el.click();
             break;
 
+        // Import
         case "file:import":
-            document.getElementById("file-in").click()
+            // First setup the loading
+            file_in_el.onchange = function()
+            {
+                // Function chaining; loads the file, then set the current project
+                loadMIDIFile(proj_set_MIDI);
+            }
+            // Then input file
+            file_in_el.click();
+            break;
+
+        // Export
+        case "file:export":
+            proj_export_MIDI();
             break;
 
         default:
