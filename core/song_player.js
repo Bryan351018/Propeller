@@ -203,6 +203,8 @@ async function score_play()
 
             // Wait
             await resolve_after(leastdT * unit_wait_time * 1000);
+            // Update measure number display
+            updateMeasNum();
         }
         // If leastdT is zero
         else
@@ -286,9 +288,25 @@ function score_stop()
     is_playing = false;
     aud_cur_tick = 0;
     // Reset indexes
-    for (var i in evInd)
-    {
-        evInd[i] = 0;
-    }
+    evInd = [];
+    deltaT = [];
+
+    // Reset real time timer
+    sec_elapsed = 0;
     setRealTimerState(false);
+
+    // Immediately stop all notes
+    for (var instrument of instruments)
+    {
+        if (instrument)
+        {
+            for (var instance of instrument.instances)
+            {
+                instance?.stop();
+            }
+        }
+    }
+
+    // TEMPORARY: clear top piano
+    topPEQueue.push({clear: true});
 }

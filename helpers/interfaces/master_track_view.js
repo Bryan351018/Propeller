@@ -38,14 +38,53 @@ function setKeySig(text)
     key_sig_disp_el.textContent = text;
 }
 
+// A safer inplementation of log10 for digit amount checking
+function safeDigits(num)
+{
+    if (num == 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return Math.floor(Math.log10(num)) + 1;
+    }
+}
+
+// Pad tick number with spaces
+function pad(num, digits)
+{
+    // Result string
+    var res = "";
+
+    for (var i = 0; i < digits - safeDigits(num); i++)
+    {
+        res += " ";
+    }
+
+    res += num;
+
+    return res;
+}
+
 // TODO
 function updateMeasNum()
 {
     // 1. Get tick num
 
-    // 2. Tick num modulo ticks/beat to get final number
+    // 2. Tick num modulo ticks/beat to get proper tick number
+    const proper_tick = pad(aud_cur_tick % ref_t_per_b, safeDigits(ref_t_per_b));
 
     // 3. Tick num divide ticks/beat to get beat count (raw)
+    const raw_beat_count = Math.floor(aud_cur_tick / ref_t_per_b);
+
+    // 4. Raw beat count modulo time sig numerator, then add 1 to get measure num (since they start from 1)
+    const proper_beat = raw_beat_count % time_sig[0] + 1;
+
+    // 5. Raw beat count divide time sig numerator, then add 1 to get measure num (since they start from 1)
+    const measure_num = Math.floor(raw_beat_count / time_sig[0]) + 1;
+
+    meas_num.textContent = measure_num + ":" + proper_beat + ":" + proper_tick;
 }
 
 // Slightly inaccurate

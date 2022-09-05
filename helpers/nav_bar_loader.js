@@ -197,12 +197,26 @@ function commitAction(action)
             if (is_playing)
             {
                 score_stop();
+                document.getElementById("control-play-stop").innerHTML = '<i class="bi bi-play"></i>';
             }
             else
             {
+                // If the audio context has not been initialized
+                if (!ac)
+                {
+                    // initialize it
+                    audioCtxInit();
+                }
+                // Auto-unmute
+                if (!sound_enabled)
+                {
+                    toggleMute();
+                }
+
                 score_play();
+                document.getElementById("control-play-stop").innerHTML = '<i class="bi bi-stop-fill"></i>';
             }
-            
+
             break;
 
         default:

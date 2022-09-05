@@ -31,14 +31,23 @@ Inspired by "Domino", a similar Digital Audio Workstation that I have used in th
 + README.md: This file
 
 ### Design Choices
-While researching the libraries available, I found [MIDI.js](https://github.com/mudcube/MIDI.js). Its tutorial works, but it is very undocumented and a little hard to use. So, I resorted to using other libraries.
+1. While researching the libraries available, I found [MIDI.js](https://github.com/mudcube/MIDI.js). Its tutorial works, but it is very undocumented and a little hard to use. So, I resorted to using other libraries.
+2. MIDI playing was more complicated than I expected, since each tick in MIDI files are usually shorter than 2 miliseconds, so short that setTimeout() in JavaScript could not handle. So, I compensated this by dynamically stepping the shortest tick available, to be most performant and not miss events.
+3. AudioContext, which allows arbitrary playing of sounds in a browser, requires manual user action like clicks to be initialized. So, I added a mute button on the top-right corner of the page.
 
 
 ### Libraries Used
-+ soundfont-player
-+ midi-file
-+ FileSaver.js
-+ tuna
-+ Bootstrap
-+ p5.js
-+ hammer.js
++ [soundfont-player](https://github.com/danigb/soundfont-player)
+	+ This allows me to play sounds from MIDI data according to a soundfont
++ [midi-file](https://github.com/carter-thaxton/midi-file)
+    + This allows me to convert between raw MIDI file bytes from an ArrayBuffer, and a format more readable for JavaScript
++ [FileSaver.js](https://github.com/eligrey/FileSaver.js)
+    + This makes things easy when downloading files, when saving projects and exporting MIDI or sound files
++ [tuna](https://github.com/Theodeus/tuna)
+    + This is an audio effects library that gives support to MIDI controller events, like reverb, delay, and such
++ [Bootstrap](https://getbootstrap.com/)
+    + Bootstrap makes things easier and cleaner when creating UI in an HTML page
++ [p5.js](https://p5js.org/)
+    + p5.js is used in canvas-driven components (e.g. top piano and main editor) to not deal with lots of CSS positioning attributes
++ [hammer.js](http://hammerjs.github.io/)
+    + hammer.js allows gesture detection on mobile devices
