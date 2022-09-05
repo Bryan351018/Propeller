@@ -134,7 +134,7 @@ const top_piano = (sketch) => {
         {
             // Change note states
             temp_pack = topPEQueue.shift()
-            console.log(temp_pack);
+            //console.log(temp_pack);
 
             // If instructed to clear the keyboard
             if (temp_pack.clear)

@@ -62,8 +62,8 @@ div#editor
     margin-right: 1em;
 }
 
-/* Hide original file input box */
-#file-in
+/* Hide original file input box and audio format tester */
+#file-in, #audio-format-test
 {
     display: none;
 }

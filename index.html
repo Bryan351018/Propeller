@@ -58,6 +58,8 @@
 
             <!-- Input element, hidden by CSS, used programmatically by JS to open file dialogs -->
             <input type="file" name="midi-file" id="file-in">
+            <!-- Audio element, hidden by CSS, used programmatically by JS to check audio format support -->
+            <audio id="audio-format-test"></audio>
 
             <!-- Toolbar -->
             <div id="toolbar" role="toolbar">
@@ -133,15 +135,15 @@
                         <!-- Master track info view -->
                         <div class="horizontal-container" id="master-track-view">
                             <p><sup>MEAS</sup></p>
-                            <p>1:1:0000</p>
+                            <p id="meas-num">1:1:0000</p>
                             <p><sup>TIME</sup></p>
-                            <p>0:00</p>
+                            <p id="time-num">0:00</p>
                             <p><sup>BPM</sup></p>
-                            <p>118.00</p>
+                            <p id="bpm">118.00</p>
                             <!-- Time signature -->
                             <div id="time-sig">
-                                <p>4</p>
-                                <p>4</p>
+                                <p id="time-sig-numerator">4</p>
+                                <p id="time-sig-denominator">4</p>
                             </div>
                             <!-- Key signature -->
                             <p id="key-sig">G minor</p>
@@ -250,6 +252,7 @@
         <script src="helpers/interfaces/current_channel_display_nocanvas.js"></script>
         <script src="helpers/interfaces/top_piano.js"></script>
         <script src="helpers/interfaces/main_editor_window.js"></script>
+        <script src="helpers/interfaces/master_track_view.js"></script>
 
     </body>
 </html>

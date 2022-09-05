@@ -55,8 +55,14 @@ function initIns(name, channel)
 // Beats per minute
 var BPM = 120;
 
+// Time signature (numerator, denominator)
+var time_sig = [4, 4];
+
 // Current tick number (audible, uneven increments present)
 var aud_cur_tick = 0;
+
+// Reference tick per beat
+var ref_t_per_b;
 
 // Delta T arrays for each track
 var deltaT = [];
@@ -83,6 +89,32 @@ function mu_s_beat_to_bpm(mu_s_beat)
     return 1 / (mu_s_beat / MICRO_INV) * 60;
 }
 
+// Get key signature text
+function getKeySigText(key_num, scale_num)
+{
+    const scales = [
+        ["B", "G♭", "D♭", "A♭", "E♭", "B♭", "F", "C", "G", "D", "A", "E", "B", "F♯" ,"D♭"], // Major scales (7b - 7#)
+        ["G♯", "E♭", "B♭", "F", "C", "G", "D", "A", "E", "B", "F♯", "C♯", "G♯", "D♯", "B♭"] // Minor scales (7b - 7#)
+    ]
+
+    var result = "";
+
+    if (!scale_num)
+    {
+        // Major
+        result = scales[0][key_num + 7];
+        result += " Major";
+    }
+    else
+    {
+        // Minor
+        result = scales[1][key_num + 7];
+        result += " Minor";
+    }
+
+    return result;
+}
+
 // Resolve after a certain delay, part of score_play()
 function resolve_after(time)
 {
@@ -99,9 +131,12 @@ function resolve_after(time)
 async function score_play()
 {
     is_playing = true;
+    setRealTimerState(true);
 
     // Contents to play
     const contents = current_project.midi_contents;
+
+    ref_t_per_b = contents.header.ticksPerBeat;
 
     // Wait time (seconds) per tick
     var unit_wait_time = 0.5; // Default playing speed: 120 BPM
@@ -185,18 +220,36 @@ async function score_play()
                         // Recalculate unit wait time
                         unit_wait_time = mu_s_beat_to_s_tick(cur_event.microsecondsPerBeat, contents.header.ticksPerBeat);
                         BPM = mu_s_beat_to_bpm(cur_event.microsecondsPerBeat);
+                        // Set display BPM
+                        setDispBPM(BPM);
                         break;
 
                     case "programChange":
                         await initIns(getSfInstName(inst_info[cur_event.programNumber].instrument), index);
                         break;
 
+                    case "timeSignature":
+                        time_sig[0] = cur_event.numerator;
+                        time_sig[1] = cur_event.denominator;
+                        updateTimeSig();
+                        break;
+
+                    case "keySignature":
+                        // Get key signature
+                        setKeySig(getKeySigText(cur_event.key, cur_event.scale));
+                        break;
+
                     case "noteOn":
                         instruments[index].instances[cur_event.noteNumber] = instruments[index].player.start(cur_event.noteNumber, ac.currentTime, {gain: cur_event.velocity / 127});
+
+                        // TEMPORARY: top piano display
+                        topPEQueue.push({note: cur_event.noteNumber, active: true});
                         break;
 
                     case "noteOff":
                         instruments[index].instances[cur_event.noteNumber].stop();
+                        // TEMPORARY: top piano display
+                        topPEQueue.push({note: cur_event.noteNumber, active: false});
                         break;
 
                     default:
@@ -224,4 +277,10 @@ function score_stop()
 {
     is_playing = false;
     aud_cur_tick = 0;
+    // Reset indexes
+    for (var i in evInd)
+    {
+        evInd[i] = 0;
+    }
+    setRealTimerState(false);
 }

@@ -191,6 +191,20 @@ function commitAction(action)
             proj_export_MIDI();
             break;
 
+        // Playback
+        case "playback:toggle_play_stop":
+            // TEMPORARY
+            if (is_playing)
+            {
+                score_stop();
+            }
+            else
+            {
+                score_play();
+            }
+            
+            break;
+
         default:
             console.warn("This action is currently unhandled");
             break;

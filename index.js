@@ -4,7 +4,16 @@
 const col_name = "FluidR3_GM";
 
 // Soundfont extension (ogg/mp3)
-var sf_ext = "ogg";
+var sf_ext;
+// Automatic extension selection
+if (document.getElementById("audio-format-test").canPlayType("audio/ogg"))
+{
+    sf_ext = "ogg";
+}
+else
+{
+    sf_ext = "mp3";
+}
 
 // Parsed MIDI contents
 var MIDIContents;
