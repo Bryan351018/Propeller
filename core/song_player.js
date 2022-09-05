@@ -240,6 +240,14 @@ async function score_play()
                         break;
 
                     case "noteOn":
+                        // If a program change has not been set before
+                        if (!instruments[index])
+                        {
+                            // Create a piano by default
+                            await initIns(getSfInstName(inst_info[0].instrument), index);
+                        }
+
+                        // Play the note
                         instruments[index].instances[cur_event.noteNumber] = instruments[index].player.start(cur_event.noteNumber, ac.currentTime, {gain: cur_event.velocity / 127});
 
                         // TEMPORARY: top piano display
