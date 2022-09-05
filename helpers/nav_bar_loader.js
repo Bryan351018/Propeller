@@ -148,7 +148,7 @@ function updateCtxMenu(ins_id, set_items)
 }
 
 // Commit an action according to an action string (such as those in context menus)
-function commitAction(action)
+async function commitAction(action)
 {
     console.info("Action commited: " + action);
 
@@ -177,10 +177,20 @@ function commitAction(action)
         // Import
         case "file:import":
             // First setup the loading
-            file_in_el.onchange = function()
+            file_in_el.onchange = async function()
             {
                 // Function chaining; loads the file, then set the current project
-                loadMIDIFile(proj_set_MIDI);
+                await loadMIDIFile(proj_set_MIDI);
+
+                // If the audio context has not been initialized
+                if (!ac)
+                {
+                    // initialize it
+                    audioCtxInit();
+                }
+
+                // Pass through MIDI data
+                midi_pass_set();
             }
             // Then input file
             file_in_el.click();
@@ -213,8 +223,16 @@ function commitAction(action)
                     toggleMute();
                 }
 
-                score_play();
-                document.getElementById("control-play-stop").innerHTML = '<i class="bi bi-stop-fill"></i>';
+                // If the project is initialized
+                if (current_project.initialized)
+                {
+                    score_play();
+                    document.getElementById("control-play-stop").innerHTML = '<i class="bi bi-stop-fill"></i>';
+                }
+                else
+                {
+                    alert("The project is still initializing. Please wait.");
+                }
             }
 
             break;

@@ -25,30 +25,6 @@ function audioCtxInit()
     tuna = new Tuna(ac);
 }
 
-// Initialize an instrument on a specific channel
-function initIns(name, channel)
-{
-    return new Promise(function(resolve, reject)
-    {
-        // Attempt to initialize
-        Soundfont.instrument(ac, getSFName(name)).then(
-            // Initialization successful
-            function(ins)
-            {
-                // Set instruments array
-                instruments[channel] = {player: ins, instances: []};
-                resolve("Successfully initialized " + getSFName(name) + ` as instruments[${channel}].player`);
-            }
-        ).catch(
-            // Initialization failed
-            function()
-            {
-                reject("Could not initialize " + getSFName(name));
-            }
-        );
-    })
-}
-
 
 /* === PLAYER === */
 
@@ -227,7 +203,8 @@ async function score_play()
                         break;
 
                     case "programChange":
-                        await initIns(getSfInstName(inst_info[cur_event.programNumber].instrument), index);
+                        //await initIns(getSfInstName(inst_info[cur_event.programNumber].instrument), index);
+                        instruments[index] = current_project.instrument_bank[index][cur_event.programNumber];
                         break;
 
                     case "timeSignature":
@@ -245,8 +222,8 @@ async function score_play()
                         // If a program change has not been set before
                         if (!instruments[index])
                         {
-                            // Create a piano by default
-                            await initIns(getSfInstName(inst_info[0].instrument), index);
+                            // Use the piano
+                            instruments[index] = current_project.instrument_bank[index][0];
                         }
 
                         // Play the note

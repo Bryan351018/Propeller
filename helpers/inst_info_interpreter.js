@@ -14,8 +14,8 @@ function getSfInstName(fullStr)
     // Replace spaces by underscores
     tempStr = tempStr.replace(/ /g, "_");
 
-    // Remove brackets
-    tempStr = tempStr.replace(/[()]/g, "");
+    // Remove brackets and plus signs
+    tempStr = tempStr.replace(/[()+]/g, "");
 
     return tempStr;
 }

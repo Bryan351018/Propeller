@@ -100,3 +100,15 @@ i.bi:hover
     height: 16px;
     border: 1px white dashed;
 }
+
+/* Configure progress bar */
+#progress
+{
+    width: 18em;
+    margin-right: 20px;
+}
+
+#progress div
+{
+    color: black;
+}

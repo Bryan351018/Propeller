@@ -24,39 +24,44 @@ var sound_enabled = false;
 // Load and parse a MIDI file into MIDIContents, then call a function on success
 function loadMIDIFile(call_func)
 {
-    // Get file
-    const file = document.getElementById("file-in").files[0];
-    console.info("Loading \"" + file.name + "\" (" + file.size + " B)");
-    // Check for non-MIDIs
-    if (file.type != "audio/midi")
+    return new Promise(function(resolve, reject)
     {
-        console.error("The inputted file is not a MIDI file");
-        return null;
-    }
-
-    // Read file
-    file.arrayBuffer().then(
-        // Read successful
-        function(contents)
+        // Get file
+        const file = document.getElementById("file-in").files[0];
+        console.info("Loading \"" + file.name + "\" (" + file.size + " B)");
+        // Check for non-MIDIs
+        if (file.type != "audio/midi")
         {
-            console.log(contents);
-
-            // Must be seperate
-            MIDIContents = new Uint8Array(contents);
-            MIDIContents = parseMidi(MIDIContents);
-
-            console.info(MIDIContents);
-
-            // Call the function
-            call_func.call();
+            console.error("The inputted file is not a MIDI file");
+            reject("The inputted file is not a MIDI file");
         }
-    ).catch(
-        // Read failed
-        function()
-        {
-            console.error("Failed to read MIDI file");
-        }
-    );
+
+        // Read file
+        file.arrayBuffer().then(
+            // Read successful
+            function(contents)
+            {
+                console.log(contents);
+
+                // Must be seperate
+                MIDIContents = new Uint8Array(contents);
+                MIDIContents = parseMidi(MIDIContents);
+
+                console.info(MIDIContents);
+
+                // Call the function
+                call_func.call();
+                resolve("MIDI file loaded successfully");
+            }
+        ).catch(
+            // Read failed
+            function()
+            {
+                console.error("Failed to read MIDI file");
+                reject("Failed to read MIDI file");
+            }
+        );
+    });
 }
 
 // Download a file (https://stackoverflow.com/questions/54626186/how-to-download-file-with-javascript)
@@ -111,10 +116,40 @@ function toggleMute()
     }
 }
 
+// Set state of progress bar
+function setProgress(value, vmin, vmax, visible, message)
+{
+    var barEl = document.getElementById("progress");
+    var txtEl = document.getElementById("progress-txt");
+
+    // Set percentage
+    const val = (value - vmin) / (vmax - vmin) * 100 + "%";
+    barEl.firstElementChild.style.width = val;
+    barEl.firstElementChild.textContent = val;
+    txtEl.textContent = message;
+
+    // Set visibility
+    if (visible)
+    {
+        txtEl.style.display = "inline-block";
+        barEl.style.display = "flex";
+    }
+    else
+    {
+        txtEl.style.display = "none";
+        barEl.style.display = "none";
+    }
+
+    barEl.setAttribute("aria-valuenow", value);
+    barEl.setAttribute("aria-valuemin", vmin);
+    barEl.setAttribute("aria-valuemax", vmax);
+}
+
 // Automatically initialize components on window load
 window.onload = function()
 {
     loadNavs();
     createCurChDisp();
     updateCurChDisp();
+    setProgress(0, 0, 0, false, "");
 }
