@@ -123,7 +123,7 @@ function setProgress(value, vmin, vmax, visible, message)
     var txtEl = document.getElementById("progress-txt");
 
     // Set percentage
-    const val = (value - vmin) / (vmax - vmin) * 100 + "%";
+    const val = ((value - vmin) / (vmax - vmin) * 100).toFixed(3) + "%";
     barEl.firstElementChild.style.width = val;
     barEl.firstElementChild.textContent = val;
     txtEl.textContent = message;

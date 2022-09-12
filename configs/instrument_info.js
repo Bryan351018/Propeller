@@ -53,7 +53,7 @@ const inst_info = [
   {code: "0x33", family: "Ensemble", instrument: "Synth Strings 2"},
   {code: "0x34", family: "Ensemble", instrument: "Choir Aahs"},
   {code: "0x35", family: "Ensemble", instrument: "Voice Oohs"},
-  {code: "0x36", family: "Ensemble", instrument: "Synth Voice"},
+  {code: "0x36", family: "Ensemble", instrument: "Synth Choir"},
   {code: "0x37", family: "Ensemble", instrument: "Orchestra Hit"},
   {code: "0x38", family: "Brass", instrument: "Trumpet"},
   {code: "0x39", family: "Brass", instrument: "Trombone"},

@@ -35,6 +35,11 @@ Inspired by "Domino", a similar Digital Audio Workstation that I have used in th
 2. MIDI playing was more complicated than I expected, since each tick in MIDI files are usually shorter than 2 miliseconds, so short that setTimeout() in JavaScript could not handle. So, I compensated this by dynamically stepping the shortest tick available, to be most performant and not miss events.
 3. AudioContext, which allows arbitrary playing of sounds in a browser, requires manual user action like clicks to be initialized. So, I added a mute button on the top-right corner of the page.
 
+### Plans
+- [ ] Fix tick display bug
+- [ ] Fix parallel loading bug
+- [ ] Add support for playback speed change
+- [ ] Add support for marker display
 
 ### Libraries Used
 + [soundfont-player](https://github.com/danigb/soundfont-player)

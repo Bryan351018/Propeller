@@ -6,6 +6,8 @@ var current_project =
     name: "untitled",
     initialized: false, // Is the project initialized
     instrument_bank: [], // Instruments used by each track
+    time_sigs: [], // List of time signatures and their locations, e.g. {top: 4, bottom: 4, at: 480},
+                   // where "at" is in ticks
     midi_contents: null
 };
 
@@ -42,15 +44,24 @@ function proj_set_MIDI()
 // Walk through MIDI data in an imported file
 async function midi_pass_set()
 {
-    var tempInsBank = [];
+    var tempInsBank = []; // Temporary instrument bank
+    var tempTickNum = 0; // Temporary tick number
 
+    // For each track
     for (var track_num in current_project.midi_contents.tracks)
     {
-        // Set progress bar
-        setProgress(track_num, 0, current_project.midi_contents.header.numTracks - 1, true, "Init ins bank");
+        // Set current tick number for the track
+        tempTickNum = 0;
 
+        // Set progress bar
+        setProgress(track_num, 0, current_project.midi_contents.header.numTracks - 1, true, "Loading");
+
+        // For each event
         for (var event of current_project.midi_contents.tracks[track_num])
         {
+            // Advance current tick number
+            tempTickNum += event.deltaTime;
+
             switch (event.type)
             {
                 // Program change: register instrument bank
@@ -61,6 +72,11 @@ async function midi_pass_set()
                         // Cache the instrument
                         await initIns(tempInsBank, getSfInstName(inst_info[event.programNumber].instrument), event.programNumber);
                     }
+                    break;
+
+                // Time signature event: load time signatures
+                case "timeSignature":
+                    current_project.time_sigs.push({top: event.numerator, bottom: event.denominator, at: tempTickNum});
                     break;
 
                 default:

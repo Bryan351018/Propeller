@@ -71,7 +71,7 @@ function getKeySigText(key_num, scale_num)
     const scales = [
         ["B", "G♭", "D♭", "A♭", "E♭", "B♭", "F", "C", "G", "D", "A", "E", "B", "F♯" ,"D♭"], // Major scales (7b - 7#)
         ["G♯", "E♭", "B♭", "F", "C", "G", "D", "A", "E", "B", "F♯", "C♯", "G♯", "D♯", "B♭"] // Minor scales (7b - 7#)
-    ]
+    ];
 
     var result = "";
 
@@ -100,7 +100,7 @@ function resolve_after(time)
         {
             resolve(`Delayed successfully for ${time} ms`);
         }, time);
-    })
+    });
 }
 
 // Play score
@@ -234,7 +234,7 @@ async function score_play()
                         break;
 
                     case "noteOff":
-                        instruments[index].instances[cur_event.noteNumber].stop();
+                        instruments[index].instances[cur_event.noteNumber]?.stop();
                         // TEMPORARY: top piano display
                         topPEQueue.push({note: cur_event.noteNumber, active: false});
                         break;

@@ -172,6 +172,7 @@ async function commitAction(action)
 
         case "file:open":
             file_in_el.click();
+            current_project.initialized = false;
             break;
 
         // Import
@@ -179,18 +180,34 @@ async function commitAction(action)
             // First setup the loading
             file_in_el.onchange = async function()
             {
+                current_project.initialized = false;
+
                 // Function chaining; loads the file, then set the current project
-                await loadMIDIFile(proj_set_MIDI);
-
-                // If the audio context has not been initialized
-                if (!ac)
+                await loadMIDIFile(proj_set_MIDI)
+                // If the file has been loaded successfully
+                .then(function()
                 {
-                    // initialize it
-                    audioCtxInit();
-                }
+                    // If the audio context has not been initialized
+                    if (!ac)
+                    {
+                        // initialize it
+                        audioCtxInit();
+                    }
 
-                // Pass through MIDI data
-                midi_pass_set();
+                    // Pass through MIDI data
+                    midi_pass_set();
+                })
+                // If file loading failed
+                .catch(function(error)
+                {
+                    // If the user did in fact input a file
+                    if (file_in_el.value)
+                    {
+                        alert(error);
+                    }
+                });
+
+
             }
             // Then input file
             file_in_el.click();
