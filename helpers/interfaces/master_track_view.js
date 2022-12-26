@@ -76,23 +76,26 @@ function getBeatAndMeasureNum(tick)
     var index = 0; // Index for the time signature records
 
     // If the index exists, and there is a time signature change
-    while (current_project.time_sigs[index] && tick_quota - current_project.time_sigs[index].at >= 0)
+    while (current_project.time_sigs[index] && tick >= current_project.time_sigs[index].at)
     {
-        // If the next time signature change exists, and the tick quota is after it
-        if (current_project.time_sigs[index + 1] && tick_quota - current_project.time_sigs[index + 1].at >= 0)
+        // If the next time signature change exists, and the tick number reaches it
+        if (current_project.time_sigs[index + 1] && tick >= current_project.time_sigs[index + 1].at)
         {
             // Increase previous measures
             measures += Math.floor(Math.floor(
                 (current_project.time_sigs[index + 1].at - current_project.time_sigs[index].at)
                  / ref_t_per_b)
                 / current_project.time_sigs[index].top);
+
+            // Reduce tick quota
+            tick_quota -= current_project.time_sigs[index + 1].at - current_project.time_sigs[index].at;
         }
 
-        // Reduce tick quota
-        tick_quota -= current_project.time_sigs[index].at;
+
         // Increment index
         index++;
     }
+
     // Shift index back to correct location
     index--;
 

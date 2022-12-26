@@ -1,7 +1,7 @@
 'use strict';
 
-// Current project
-var current_project =
+// Project template
+const proj_template =
 {
     name: "untitled",
     initialized: false, // Is the project initialized
@@ -10,6 +10,9 @@ var current_project =
                    // where "at" is in ticks
     midi_contents: null
 };
+
+// Current project
+var current_project = {};
 
 // Initialize an instrument on a specific key
 function initIns(loc, name, key)
@@ -35,10 +38,23 @@ function initIns(loc, name, key)
     })
 }
 
+// Initialize project
+function proj_init()
+{
+    // Forced deep assignment
+    for (var key of Object.keys(proj_template))
+    {
+        current_project[key] = proj_template[key];
+    }
+    debugger;
+}
+
 // Set MIDI Contents in project
 function proj_set_MIDI()
 {
+    proj_init();
     current_project.midi_contents = MIDIContents;
+    debugger;
 }
 
 // Walk through MIDI data in an imported file
