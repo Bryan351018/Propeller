@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "Attach to local webserver",
+            "request": "launch",
+            "url": "http://localhost:8887/Propeller/"
+        }
+    ]
+}
