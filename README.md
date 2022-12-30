@@ -1,4 +1,5 @@
 # Propeller
+[![License: GNU GPLv3](https://flat.badgen.net/github/license/Bryan351018/Propeller/?label=LICENSE)](https://github.com/Bryan351018/Propeller/LICENSE.md)
 ## A web-based, MIDI-compliant Digital Audio Workstation
 Inspired by "Domino", a similar Digital Audio Workstation that I have used in the past.
 
